@@ -1,0 +1,52 @@
+# Environment files (NEVER commit these)
+.env
+*.env
+**/.env
+backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite3
+
+# Temp files
+*.tmp
+*.bak
+
+# Gmail tokens (sensitive)
+gmail_token.json
+gmail_credentials.json
+credentials.json
