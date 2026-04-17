@@ -1,0 +1,132 @@
+================================================================
+   AI HR System - Setup Instructions
+================================================================
+
+PREREQUISITES
+----------------------------------------------------------------
+1. Python 3.11 or higher
+   Download: https://www.python.org/downloads/
+   IMPORTANT: Check "Add Python to PATH" during installation
+
+2. Node.js 18 or higher
+   Download: https://nodejs.org/
+   Choose the LTS version
+
+3. XAMPP (for MySQL)
+   Download: https://www.apachefriends.org/
+   Only MySQL is required - you can skip Apache/FileZilla
+
+4. Git (optional, for version control)
+   Download: https://git-scm.com/
+
+
+FIRST-TIME SETUP
+----------------------------------------------------------------
+Step 1: Start MySQL
+   - Open XAMPP Control Panel
+   - Click "Start" next to MySQL
+   - Wait until it shows green "Running"
+
+Step 2: Create the database
+   - Double-click: setup-database.bat
+   - This creates the 'hr_agentfactory' database
+
+Step 3: Configure API keys
+   - Open: backend\.env
+   - Replace placeholder values:
+
+     CLAUDE_API_KEY=sk-ant-api03-your-real-key-here
+     SENDGRID_API_KEY=SG.your-real-key-here
+
+   - Get Claude API key from: https://console.anthropic.com/
+   - Get SendGrid API key from: https://app.sendgrid.com/
+
+   NOTE: The system works without real API keys for basic
+   CRUD operations. AI features (email generation, CV scoring)
+   require a valid Claude API key.
+
+Step 4: Launch everything
+   - Double-click: START-ALL.bat
+   - It will automatically:
+     * Check MySQL is running
+     * Create database if needed
+     * Set up Python virtual environment
+     * Install all dependencies
+     * Start backend server (port 8000)
+     * Start frontend server (port 5173)
+     * Open your browser
+
+   First run takes 2-3 minutes to install dependencies.
+   Subsequent runs start in under 10 seconds.
+
+
+DAILY USE
+----------------------------------------------------------------
+1. Open XAMPP Control Panel, start MySQL
+2. Double-click START-ALL.bat
+3. Browser opens to http://localhost:5173
+4. Done!
+
+
+URLS
+----------------------------------------------------------------
+Frontend (React):     http://localhost:5173
+Backend (FastAPI):    http://localhost:8000
+API Documentation:    http://localhost:8000/docs
+Database Admin:       http://localhost/phpmyadmin (if Apache running)
+
+
+PROJECT STRUCTURE
+----------------------------------------------------------------
+HR_AgentFactory/
+  START-ALL.bat           <-- Double-click to launch everything
+  setup-database.bat      <-- One-time database setup
+  SETUP.txt               <-- This file
+
+  backend/                <-- Python FastAPI backend
+    .env                  <-- API keys and config (edit this!)
+    requirements.txt      <-- Python dependencies
+    app/
+      main.py             <-- FastAPI entry point
+      core/               <-- Config and database
+      models/             <-- SQLAlchemy models (10 tables)
+      ai/                 <-- Claude AI integration
+      services/           <-- Business logic
+      api/routes/         <-- API endpoints
+
+  frontend/               <-- React + Vite frontend
+    .env                  <-- Frontend config
+    src/
+      App.jsx             <-- Main app with routing
+      components/         <-- Reusable UI components
+      pages/              <-- Page components
+      api/                <-- Axios API client
+
+
+TROUBLESHOOTING
+----------------------------------------------------------------
+Problem: "mysql.exe not found"
+Fix:     Install XAMPP, or add MySQL bin folder to system PATH
+         Default: C:\xampp\mysql\bin
+
+Problem: "MySQL is not running"
+Fix:     Open XAMPP Control Panel and start MySQL
+
+Problem: "Python not found"
+Fix:     Install Python 3.11+ and check "Add to PATH"
+         Or reinstall: python.org/downloads
+
+Problem: "Node.js not found"
+Fix:     Install Node.js 18+ from nodejs.org
+
+Problem: Backend fails to start
+Fix:     Check backend\.env has valid DATABASE_URL
+         Make sure MySQL is running on port 3306
+
+Problem: Frontend shows "Loading..." forever
+Fix:     Make sure backend is running on port 8000
+         Check browser console for CORS errors
+
+Problem: AI features not working
+Fix:     Add valid CLAUDE_API_KEY in backend\.env
+         Get key from: console.anthropic.com
