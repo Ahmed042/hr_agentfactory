@@ -1,3 +1,4 @@
+import secrets
 from pydantic_settings import BaseSettings
 from typing import List
 
@@ -22,10 +23,10 @@ class Settings(BaseSettings):
     GOOGLE_CREDENTIALS_FILE: str = ""
 
     # App
-    DEBUG: bool = True
+    DEBUG: bool = False
 
     # Security
-    SECRET_KEY: str = "change-this-in-production"
+    SECRET_KEY: str = "auto-generate-on-first-run"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
 
@@ -48,3 +49,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# Auto-generate SECRET_KEY if not set properly
+if settings.SECRET_KEY in ("auto-generate-on-first-run", "change-this-in-production", "your-super-secret-key-change-this-in-production"):
+    settings.SECRET_KEY = secrets.token_urlsafe(64)

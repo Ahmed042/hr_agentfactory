@@ -128,6 +128,25 @@ export const aiAPI = {
   analyzeSentiment: (data) => api.post('/api/ai/analyze-sentiment', data),
 };
 
+// Leaves API
+export const leavesAPI = {
+  create: (data) => api.post('/api/leaves/', data),
+  getAll: (params) => api.get('/api/leaves/', { params }),
+  update: (id, data) => api.put(`/api/leaves/${id}`, data),
+  delete: (id) => api.delete(`/api/leaves/${id}`),
+};
+
+// Documents API
+export const documentsAPI = {
+  upload: (formData) => api.post('/api/documents/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getAll: (params) => api.get('/api/documents/', { params }),
+  download: (id) => `${API_BASE}/api/documents/download/${id}`,
+  delete: (id) => api.delete(`/api/documents/${id}`),
+};
+
+// Payslip download helper
+export const payrollDownloadURL = (salaryId) => `${API_BASE}/api/payroll/download/${salaryId}`;
+
 // Public API (no auth)
 export const publicAPI = {
   getCareers: (params) => api.get('/public/careers', { params }),

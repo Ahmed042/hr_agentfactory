@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -59,4 +60,4 @@ def create_default_admin(db: Session):
         )
         db.add(admin)
         db.commit()
-        print("Default admin created: admin@hrfactory.com / admin123")
+        logging.getLogger(__name__).info("Default admin created: admin@hrfactory.com / admin123")

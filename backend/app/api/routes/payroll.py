@@ -120,6 +120,50 @@ def generate_payroll(data: PayrollGenerate, db: Session = Depends(get_db)):
     return {"generated": len(generated), "payslips": generated, "month": data.month}
 
 
+@router.get("/download/{salary_id}")
+def download_payslip(salary_id: int, db: Session = Depends(get_db)):
+    """Download a payslip as PDF"""
+    from fastapi.responses import FileResponse
+    from app.services.payslip_generator import generate_payslip_pdf
+
+    salary = db.query(Salary).filter(Salary.id == salary_id).first()
+    if not salary:
+        return {"error": "Payslip not found"}
+
+    emp = db.query(Employee).filter(Employee.id == salary.employee_id).first()
+    if not emp:
+        return {"error": "Employee not found"}
+
+    employee_data = {
+        "id": emp.id,
+        "name": emp.name,
+        "email": emp.email,
+        "role": emp.role or "",
+        "employee_id": emp.employee_id or f"EMP-{emp.id}",
+        "department": "",
+    }
+
+    salary_data = {
+        "month": salary.month,
+        "gross_salary": float(salary.gross_salary or 0),
+        "federal_tax": float(salary.federal_tax or 0),
+        "state_tax": float(salary.state_tax or 0),
+        "social_security": float(salary.social_security or 0),
+        "medicare": float(salary.medicare or 0),
+        "health_insurance": float(salary.health_insurance or 0),
+        "retirement_401k": float(salary.retirement_401k or 0),
+        "total_deductions": float(salary.total_deductions or 0),
+        "net_salary": float(salary.net_salary or 0),
+    }
+
+    pdf_path = generate_payslip_pdf(employee_data, salary_data)
+    return FileResponse(
+        pdf_path,
+        filename=f"payslip_{emp.name.replace(' ', '_')}_{salary.month}.pdf",
+        media_type="application/pdf",
+    )
+
+
 @router.post("/send-payslips")
 async def send_payslips(month: str, db: Session = Depends(get_db)):
     """Generate PDF payslips and email them to employees"""

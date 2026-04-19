@@ -17,6 +17,7 @@ import Templates from './pages/Templates';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import Inbox from './pages/Inbox';
+import Leaves from './pages/Leaves';
 import Careers from './pages/Careers';
 import CareerDetail from './pages/CareerDetail';
 
@@ -56,6 +57,7 @@ export default function App() {
                       <Route path="/payroll" element={<Payroll />} />
                       <Route path="/jobs" element={<Jobs />} />
                       <Route path="/interviews" element={<Interviews />} />
+                      <Route path="/leaves" element={<Leaves />} />
                       <Route path="/templates" element={<Templates />} />
                       <Route path="/analytics" element={<Analytics />} />
                       <Route path="/settings" element={<Settings />} />

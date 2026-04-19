@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import create_tables, SessionLocal
 from app.core.auth import create_default_admin
-from app.api.routes import candidates, employees, departments, payroll, interviews, job_postings, analytics, document_templates, notes, ai, auth, emails, public, candidate_actions
+from app.api.routes import candidates, employees, departments, payroll, interviews, job_postings, analytics, document_templates, notes, ai, auth, emails, public, candidate_actions, leaves, documents, webhooks
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -17,7 +17,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins in development
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -69,6 +69,13 @@ app.include_router(emails.router, prefix="/api/emails", tags=["Emails"])
 
 # Candidate Actions
 app.include_router(candidate_actions.router, prefix="/api/actions", tags=["Candidate Actions"])
+
+# Leave & Document routes
+app.include_router(leaves.router, prefix="/api/leaves", tags=["Leaves"])
+app.include_router(documents.router, prefix="/api/documents", tags=["Documents"])
+
+# Webhooks
+app.include_router(webhooks.router, prefix="/api/webhooks", tags=["Webhooks"])
 
 # Public routes (no auth)
 app.include_router(public.router, prefix="/public", tags=["Public"])

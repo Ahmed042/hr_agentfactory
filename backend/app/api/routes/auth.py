@@ -13,6 +13,9 @@ class LoginRequest(BaseModel):
     password: str
 
 
+VALID_ROLES = {"admin", "hr_manager", "recruiter", "viewer"}
+
+
 class RegisterRequest(BaseModel):
     email: str
     password: str
@@ -47,6 +50,10 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
 
 @router.post("/register", response_model=TokenResponse)
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
+    if data.role not in VALID_ROLES:
+        raise HTTPException(status_code=400, detail=f"Invalid role. Must be one of: {', '.join(VALID_ROLES)}")
+    if len(data.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
     existing = db.query(User).filter(User.email == data.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")

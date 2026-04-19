@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Users, UserCheck, Building2, DollarSign,
   Briefcase, Calendar, FileText, BarChart3, Settings,
-  Bell, Search, ChevronRight, Zap, LogOut, Mail
+  Bell, Search, ChevronRight, Zap, LogOut, Mail, CalendarDays
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -15,6 +15,7 @@ const navigation = [
   { name: 'Employees', href: '/employees', icon: UserCheck },
   { name: 'Departments', href: '/departments', icon: Building2 },
   { name: 'Payroll', href: '/payroll', icon: DollarSign },
+  { name: 'Leaves', href: '/leaves', icon: CalendarDays },
   { name: 'Templates', href: '/templates', icon: FileText },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Settings', href: '/settings', icon: Settings },

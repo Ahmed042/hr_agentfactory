@@ -46,7 +46,15 @@ desktop.ini
 *.tmp
 *.bak
 
+# Uploads
+uploads/
+backend/uploads/
+
 # Gmail tokens (sensitive)
 gmail_token.json
 gmail_credentials.json
 credentials.json
+
+# Test DB
+test.db
+*.db
